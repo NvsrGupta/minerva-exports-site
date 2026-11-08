@@ -84,18 +84,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('quote-form');
-  if (!form || !window.emailjs) return;
+  if (!form) return;
 
   const status = form.querySelector('.form-status');
   const submitButton = form.querySelector('button[type="submit"]');
 
-  window.emailjs.init({ publicKey: 'kZJKJsTPn9dOg7-EN' });
+  if (window.emailjs) {
+    window.emailjs.init({ publicKey: 'kZJKJsTPn9dOg7-EN' });
+  }
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    submitButton.disabled = true;
     status.hidden = false;
     status.classList.remove('ok', 'err');
+
+    const requiredFields = Array.from(form.querySelectorAll('[required]'));
+    const missingFields = requiredFields
+      .filter(field => !field.value.trim())
+      .map(field => form.querySelector(`label[for="${field.id}"]`).textContent);
+
+    if (missingFields.length) {
+      status.classList.add('err');
+      status.textContent = `Please complete the required fields: ${missingFields.join(', ')}.`;
+      requiredFields.find(field => !field.value.trim()).focus();
+      return;
+    }
+
+    const emailField = form.elements.namedItem('email');
+    if (!emailField.validity.valid) {
+      status.classList.add('err');
+      status.textContent = 'Please enter a valid business email address.';
+      emailField.focus();
+      return;
+    }
+
+    if (!window.emailjs) {
+      status.classList.add('err');
+      status.textContent = 'The inquiry service is unavailable. Please try again later or contact us by email.';
+      return;
+    }
+
+    submitButton.disabled = true;
     status.textContent = 'Sending your inquiry...';
 
     const params = {

@@ -44,7 +44,7 @@
         Email: Minervaeksports@gmail.com<br>
       </div>
     </div>
-    <form id="quote-form" class="reveal glass" action="https://formsubmit.co/nvsr.aravindgupta@gmail.com" method="POST">
+    <form id="quote-form" class="reveal glass" action="https://formsubmit.co/nvsr.aravindgupta@gmail.com" method="POST" novalidate>
       <p class="form-status" role="status" aria-live="polite" aria-atomic="true" hidden></p>
       <input type="hidden" name="_subject" value="New quote inquiry — Minerva Exports website">
       <input type="hidden" name="_template" value="table">
@@ -53,9 +53,9 @@
       <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="field"><label for="name">Your name</label><input id="name" name="name" placeholder="Full name" required></div>
       <div class="field"><label for="email">Your business email</label><input id="email" name="email" type="email" placeholder="you@company.com — we'll reply here" required></div>
-      <div class="field"><label for="company">Company name</label><input id="company" name="company" autocomplete="organization" placeholder="Your company"></div>
-      <div class="field"><label for="phone">Phone / WhatsApp number</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+country code and number"></div>
-      <div class="field"><label for="country">Country</label><input id="country" name="country" autocomplete="country-name" placeholder="Your country"></div>
+      <div class="field"><label for="company">Company name</label><input id="company" name="company" autocomplete="organization" placeholder="Your company" required></div>
+      <div class="field"><label for="phone">Phone / WhatsApp number</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+country code and number" required></div>
+      <div class="field"><label for="country">Country</label><input id="country" name="country" autocomplete="country-name" placeholder="Your country" required></div>
       <div class="field"><label for="product">Product of interest</label>
         <select id="product" name="product" required>
           <option value="" selected disabled>Select a product</option>
@@ -70,7 +70,7 @@
       </div>
       <div class="field"><label for="quantity">Estimated quantity</label><input id="quantity" name="estimated_quantity" placeholder="e.g. 1 container or 500 m²"></div>
       <div class="field"><label for="destination-port">Destination port</label><input id="destination-port" name="destination_port" placeholder="e.g. Nhava Sheva, India"></div>
-      <div class="field"><label for="msg">Message / Requirements</label><textarea id="msg" name="message" placeholder="Share specifications, finish, timeline, or any other requirements..."></textarea></div>
+      <div class="field"><label for="msg">Message / Requirements</label><textarea id="msg" name="message" placeholder="Share specifications, finish, timeline, or any other requirements..." required></textarea></div>
       <button type="submit">Send inquiry</button>
     </form>
   </div>
@@ -109,6 +109,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="js/main.js?v=18"></script>
+<script src="js/main.js?v=19"></script>
 </body>
 </html>
