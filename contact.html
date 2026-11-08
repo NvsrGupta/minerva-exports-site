@@ -28,8 +28,8 @@
 <main>
 <div class="page-header reveal">
   <div class="tag">GET IN TOUCH</div>
-  <h1>Request a quote or ask about availability.</h1>
-  <p>Tell us the product, quantity, and destination port, and we'll get back to you with pricing and lead time.</p>
+  <h1>Get in Touch with Minerva Exports</h1>
+  <p>We're here to help you source quality products for your business. Share your requirements with us, and our team will get back to you within one business day.</p>
 </div>
 
 <section style="padding-top:0;">
@@ -44,15 +44,21 @@
         Email: Minervaeksports@gmail.com<br>
       </div>
     </div>
-    <form id="quote-form" class="reveal glass" action="https://formsubmit.co/Minervaeksports@gmail.com" method="POST">
+    <form id="quote-form" class="reveal glass" action="https://formsubmit.co/nvsr.aravindgupta@gmail.com" method="POST">
+      <p class="form-status" role="status" aria-live="polite" aria-atomic="true" hidden></p>
       <input type="hidden" name="_subject" value="New quote inquiry — Minerva Exports website">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" id="quote-next">
       <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="field"><label for="name">Your name</label><input id="name" name="name" placeholder="Full name" required></div>
-      <div class="field"><label for="email">Your email</label><input id="email" name="email" type="email" placeholder="you@company.com — we'll reply here" required></div>
+      <div class="field"><label for="email">Your business email</label><input id="email" name="email" type="email" placeholder="you@company.com — we'll reply here" required></div>
+      <div class="field"><label for="company">Company name</label><input id="company" name="company" autocomplete="organization" placeholder="Your company"></div>
+      <div class="field"><label for="phone">Phone / WhatsApp number</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+country code and number"></div>
+      <div class="field"><label for="country">Country</label><input id="country" name="country" autocomplete="country-name" placeholder="Your country"></div>
       <div class="field"><label for="product">Product of interest</label>
-        <select id="product" name="product">
+        <select id="product" name="product" required>
+          <option value="" selected disabled>Select a product</option>
           <option>Black Galaxy</option>
           <option>Black Granite</option>
           <option>Green Marble</option>
@@ -62,9 +68,10 @@
           <option>Not sure yet</option>
         </select>
       </div>
-      <div class="field"><label for="msg">Message</label><textarea id="msg" name="message" placeholder="Quantity, destination port, timeline..."></textarea></div>
+      <div class="field"><label for="quantity">Estimated quantity</label><input id="quantity" name="estimated_quantity" placeholder="e.g. 1 container or 500 m²"></div>
+      <div class="field"><label for="destination-port">Destination port</label><input id="destination-port" name="destination_port" placeholder="e.g. Nhava Sheva, India"></div>
+      <div class="field"><label for="msg">Message / Requirements</label><textarea id="msg" name="message" placeholder="Share specifications, finish, timeline, or any other requirements..."></textarea></div>
       <button type="submit">Send inquiry</button>
-      <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
@@ -101,6 +108,7 @@
   <span>Andhra Pradesh, India</span>
 </footer>
 
-<script src="js/main.js?v=7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="js/main.js?v=18"></script>
 </body>
 </html>

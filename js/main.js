@@ -82,64 +82,46 @@ document.addEventListener('DOMContentLoaded', () => {
   onScroll();
 });
 
-// Quote form: email the inquiry to Minerva Exports via FormSubmit (falls back to the visitor's mail app)
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('quote-form');
-  if (!form) return;
-  const TO = 'Minervaeksports@gmail.com';
-  const btn = form.querySelector('button[type="submit"]');
+  if (!form || !window.emailjs) return;
+
   const status = form.querySelector('.form-status');
+  const submitButton = form.querySelector('button[type="submit"]');
 
-  function mailtoFallback(data) {
-    const body = `Name: ${data.name}\nEmail: ${data.email}\nProduct: ${data.product}\n\n${data.message}`;
-    location.href = `mailto:${TO}?subject=${encodeURIComponent('Quote inquiry — ' + data.product)}&body=${encodeURIComponent(body)}`;
-  }
+  window.emailjs.init({ publicKey: 'kZJKJsTPn9dOg7-EN' });
 
-  const f = (n) => form.elements.namedItem(n);
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (f('_honey').value) return; // spam bot
-    const data = {
-      name: f('name').value.trim(),
-      email: f('email').value.trim(),
-      product: f('product').value,
-      message: f('message').value.trim(),
-      _subject: `New quote inquiry — ${f('product').value}`,
-      _replyto: f('email').value.trim(),
-      _template: 'table',
-      _captcha: 'false'
-    };
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    submitButton.disabled = true;
+    status.hidden = false;
     status.classList.remove('ok', 'err');
-    status.textContent = '';
+    status.textContent = 'Sending your inquiry...';
+
+    const params = {
+      name: form.elements.namedItem('name').value,
+      email: form.elements.namedItem('email').value,
+      reply_to: form.elements.namedItem('email').value,
+      company: form.elements.namedItem('company').value,
+      phone: form.elements.namedItem('phone').value,
+      country: form.elements.namedItem('country').value,
+      product: form.elements.namedItem('product').value,
+      estimated_quantity: form.elements.namedItem('estimated_quantity').value,
+      destination_port: form.elements.namedItem('destination_port').value,
+      message: form.elements.namedItem('message').value
+    };
+
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${TO}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok || String(json.success) !== 'true') throw new Error(json.message || 'Send failed');
+      await window.emailjs.send('service_lij7vf9', 'template_21lwd1m', params);
       form.reset();
-      btn.disabled = false;
-      btn.textContent = 'Send inquiry';
       status.classList.add('ok');
-      status.textContent = `✓ Submitted successfully. Thank you, ${data.name || 'there'} — we've received your inquiry and will reply to ${data.email} within one business day.`;
-      setTimeout(() => { status.classList.remove('ok'); status.textContent = ''; }, 12000);
-    } catch (err) {
-      btn.disabled = false;
-      btn.textContent = 'Send inquiry';
+      status.textContent = 'Thank you! Your inquiry was sent successfully. We’ll get back to you within one business day.';
+    } catch (error) {
+      console.error('EmailJS inquiry submission failed:', error);
       status.classList.add('err');
-      if (location.protocol === 'file:') {
-        status.textContent = 'This page was opened as a file, so it cannot send email. Open the site through a web server (or the live website) and try again.';
-      } else if (/activat/i.test(err.message)) {
-        status.textContent = `Email sending isn't activated yet. Check ${TO} (including Spam) for the "Activate Form" email, click it, then send again.`;
-      } else {
-        status.textContent = `We couldn't send automatically, so we've opened your email app. You can also write to ${TO}.`;
-        mailtoFallback(data);
-      }
+      status.textContent = 'Unable to send your inquiry. Please try again or contact us by email.';
+    } finally {
+      submitButton.disabled = false;
     }
   });
 });
